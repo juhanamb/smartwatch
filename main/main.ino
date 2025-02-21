@@ -14,4 +14,11 @@ void setup() {
 void loop() {
   // Main logic
   readMPU6050();
+  /* Here will be:
+  Read other sensors 
+  Calculate intensity level
+  Calculate battery level
+  
+
+  */
 }

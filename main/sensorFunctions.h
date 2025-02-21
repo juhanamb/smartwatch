@@ -6,5 +6,6 @@ void readMPU6050();
 /*void readTemperature()
 void readBatteryLevel()
 void readHR()
+void setIntenstity()
 void updateScreen()*/
 #endif

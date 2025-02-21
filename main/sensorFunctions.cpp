@@ -1,8 +1,9 @@
 #include "Wire.h"
 #include "I2Cdev.h"
 #include "MPU6050.h"
+#include "i2c.h"
 
-MPU6050 accelgyro;
+//MPU6050 accelgyro;
 int16_t ax, ay, az; // define accel as ax,ay,az
 int16_t gx, gy, gz; // define gyro as gx,gy,gz
 int16_t ay_indicator[10];
@@ -37,6 +38,7 @@ Here will be definitions for
 void readTemperature()
 void readBatteryLevel()
 void readHR()
+void setIntenstity()
 void updateScreen()
 */
 }
