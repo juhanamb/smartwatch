@@ -3,9 +3,10 @@
 
 void readMPU6050();
 // These functions will be implemented later
-/*void readTemperature()
-void readBatteryLevel()
-void readHR()
-void setIntenstity()
-void updateScreen()*/
+float readTemperature();
+int readBatteryLevel();
+float readHR();
+int setIntenstity();
+void updateScreen();
+
 #endif

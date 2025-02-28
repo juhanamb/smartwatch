@@ -3,6 +3,8 @@
 #include "MPU6050.h"
 #include "i2c.h"
 #include "sensorFunctions.h"
+#include "driver_lm75b.h"
+#include "MAX30105.h"
 
 void setup() {
   // Initialize i2c connection. At the moment only MPU6050 is initialized
@@ -16,9 +18,11 @@ void loop() {
   readMPU6050();
   /* Here will be:
   Read other sensors 
-  Calculate intensity level
-  Calculate battery level
-  
+  IL = setIntensity();
+  temperature = float readTemperature();
+  batterylevel = readBatteryLevel();
+  HR = readHR();
+  void updateScreen();
 
   */
 }
