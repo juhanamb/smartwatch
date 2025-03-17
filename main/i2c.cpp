@@ -8,11 +8,9 @@ MPU6050 accelgyro;
 MAX30105 HRsensor;
 
 void init_i2c() {
-  Wire.begin(35, 36); // join I2C bus
+  Wire.begin(35, 36); // join I2C bus with 35 (SDA) and 36 (SCL) pins
   Serial.begin(115200); // initialize serial communication
   Serial.println("Initializing I2C devices...");
-  Serial.println("Initializing MPU6050 devices...");
-  accelgyro.initialize();
   Serial.println("Initializing MAXREFDES117...");
 
   // Initialize I2C and MAX30102
@@ -24,7 +22,8 @@ void init_i2c() {
 /*  HRsensor.setup();
   HRsensor.setPulseAmplitudeRed(0x0A);  // IR LED Current
   HRsensor.setPulseAmplitudeIR(0x0A);   // Red LED Current */
-
+  Serial.println("Initializing MPU6050 device...");
+  accelgyro.initialize();
   // verify connection
   Serial.println("Testing device connections...");
   Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful": "MPU6050 connection failed");
