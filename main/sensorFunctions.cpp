@@ -6,6 +6,8 @@
 #include "driver_lm75b.h"
 #include "MAX30105.h"
 
+#define ANALOG_PIN 35
+
 int16_t ax, ay, az; // define accel as ax,ay,az
 int16_t gx, gy, gz; // define gyro as gx,gy,gz
 int16_t imu_threshold = 0;
@@ -25,14 +27,14 @@ void readMPU6050() {
     Serial.print("\t");
     Serial.print(ay);
     Serial.print("\t");
-    Serial.println(az);
+    Serial.println(az);*/
     Serial.print("\t"); 
     Serial.print(gx);
     Serial.print("\t");
     Serial.print(gy);
     Serial.print("\t");
     Serial.println(gz); 
-    delay(500);*/
+    delay(500);
 
     // Add up to IMU threshold value 
     delay(500);
@@ -42,7 +44,7 @@ void readMPU6050() {
   imu_threshold = imu_threshold / 10;
   Serial.print("imu_threshold: ");
   Serial.println(imu_threshold);
-  STATE = SET_IL;
+  STATE = READ_BATTERY;
 }
 
 // Sensorfunction definitions 
@@ -54,6 +56,15 @@ float readTemperature() {
 int readBatteryLevel(){
   // Read battery voltage from resistor division 
   // Calculate battery level
+  int adcValue = analogRead(ANALOG_PIN);
+  float voltage = adcValue * (3.3/4095);
+
+  Serial.print("ADC Value, Voltage: ");
+  Serial.print(adcValue);
+  Serial.print(",  ");
+  Serial.println(voltage);
+  STATE = SET_IL;
+  return 0;
 }
 
 int readHR() {

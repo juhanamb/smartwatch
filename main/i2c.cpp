@@ -3,13 +3,16 @@
 #include "I2Cdev.h"
 #include "MPU6050.h"
 #include "MAX30105.h"
+#include "sensorFunctions.h"
 
 MPU6050 accelgyro; 
 MAX30105 HRsensor;
 
 void init_i2c() {
-  Wire.begin(35, 36); // join I2C bus with 35 (SDA) and 36 (SCL) pins
+  Wire.begin(14, 15); // join I2C bus with 35 (SDA) and 36 (SCL) pins
   Serial.begin(115200); // initialize serial communication
+
+
   Serial.println("Initializing I2C devices...");
   Serial.println("Initializing MAXREFDES117...");
 
@@ -27,5 +30,5 @@ void init_i2c() {
   // verify connection
   Serial.println("Testing device connections...");
   Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful": "MPU6050 connection failed");
-
+  STATE = READ_IMU;
 }
