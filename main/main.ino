@@ -5,6 +5,7 @@
 #include "sensorFunctions.h"
 #include "driver_lm75b.h"
 #include "MAX30105.h"
+#include "NHD_US2066.h"
 
 uint8_t tmp = 0;
 
@@ -22,15 +23,25 @@ void loop() {
   Serial.print("STATE: ");
   Serial.println(STATE);
   switch (STATE) {
+    case SLEEP:
+        // if (buttonPressed()) { // Placeholder for button press logic
+        //     STATE = INIT;
+        // }
+        //STATE = SLEEP;
+        STATE = INIT;
+        break;
     case INIT:
+        init_i2c();
+        init_oled();
         break;
     case READ_IMU:  
         readMPU6050();
         break;
-        //temperature = float readTemperature();
-        //HR = readHR();
-    case READ_BATTERY:
-        tmp = readBatteryLevel();
+    case READ_TEMP:
+        readTemperature();
+        break;
+    case READ_HR: 
+        tmp = readHR(); 
         break;
     case SET_IL:
         setIntenstity();

@@ -10,14 +10,6 @@ void command(unsigned char c)
   unsigned char i, temp;
   switch(mode)
   {
-    case 0:   digitalWrite(CS, LOW);
-              PORTA = c;
-              digitalWrite(RS, LOW);
-              digitalWrite(E, HIGH);
-              delay(1);
-              digitalWrite(E, LOW);
-              digitalWrite(CS, HIGH);
-              break;
    case 1:    tx_packet[0] = 0x00;
               tx_packet[1] = c;
               send_packet(2);
@@ -88,14 +80,6 @@ void data(unsigned char d)
   unsigned char i, temp;
   switch(mode)
   {
-    case 0:   digitalWrite(CS, LOW);
-              PORTA = d;
-              digitalWrite(RS, HIGH);
-              digitalWrite(E, HIGH);
-              delay(1);
-              digitalWrite(E, LOW);
-              digitalWrite(CS, HIGH);
-              break;
    case 1:    tx_packet[0] = 0x40;
               tx_packet[1] = d;
               send_packet(2);
@@ -186,14 +170,11 @@ void init_oled()
   pinMode(SDOUT, INPUT);
   digitalWrite(SCLK, HIGH);
   digitalWrite(SDIN, HIGH);
-  DDRA = 0xFF;
-  PORTA = 0x00;
-  DDRC = 0xFF;
-  PORTC = 0x00;
   digitalWrite(RES, HIGH);
   delay(10);
   Wire.begin();
   delay(10);
+  mode = 1; // Set to I2C mode
     //SPI.begin();
     command(0x2A);  //function set (extended command set)
 	command(0x71);  //function selection A, disable internal Vdd regualtor

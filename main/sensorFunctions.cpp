@@ -5,6 +5,7 @@
 #include "i2c.h"
 #include "driver_lm75b.h"
 #include "MAX30105.h"
+#include "NHD_US2066.h"
 
 #define ANALOG_PIN 35
 
@@ -34,7 +35,6 @@ void readMPU6050() {
     Serial.print(gy);
     Serial.print("\t");
     Serial.println(gz); 
-    delay(500);
 
     // Add up to IMU threshold value 
     delay(500);
@@ -44,27 +44,20 @@ void readMPU6050() {
   imu_threshold = imu_threshold / 10;
   Serial.print("imu_threshold: ");
   Serial.println(imu_threshold);
-  STATE = READ_BATTERY;
+  STATE = READ_TEMP;
 }
 
 // Sensorfunction definitions 
 
 float readTemperature() {
-  // Read temperature sensor 
-}
-
-int readBatteryLevel(){
-  // Read battery voltage from resistor division 
-  // Calculate battery level
-  int adcValue = analogRead(ANALOG_PIN);
-  float voltage = adcValue * (3.3/4095);
-
-  Serial.print("ADC Value, Voltage: ");
-  Serial.print(adcValue);
-  Serial.print(",  ");
-  Serial.println(voltage);
-  STATE = SET_IL;
-  return 0;
+  // Read temperature sensor using LM75B
+  uint16_t raw;
+  float temp;
+  lm75b_read(&lm75b_handle, &raw, &temp);
+  Serial.print("Temperature: ");
+  Serial.println(temp);
+  STATE = READ_HR;
+  return temp;
 }
 
 int readHR() {
@@ -83,7 +76,9 @@ int readHR() {
         Serial.println("No finger detected!");
     }
 
-    delay(500);  // Delay for readability
+    //delay(500);  // Delay for readability
+    STATE = SET_IL;
+    return 0; // Placeholder return value
 }
 
 void setIntenstity() {
@@ -104,7 +99,7 @@ void setIntenstity() {
     Serial.println("IL set to 1");
   }
   imu_threshold = 0;
-  STATE = UPDATE;
+  STATE = READ_IMU;
 }
 
 void updateScreen() {
@@ -112,7 +107,17 @@ void updateScreen() {
   // Format: 
   // HR120 walk IL:4 (Hear rate, activity type, intensity level)
   // -40°C B:100 % (Temperature, Battery level)
-  Serial.print("IL:");
-  Serial.println(IL);
+  command(0x01); // Clear display
+  delay(10);
+  char buffer[20];
+  sprintf(buffer, "IL:%d", IL);
+  printToScreen(buffer);
   STATE = READ_IMU;
+}
+
+void printToScreen(const char* str) {
+  command(0x80); // Set DDRAM address to 0x00 (first line)
+  for(int i = 0; str[i] != '\0'; i++) {
+    data(str[i]);
+  }
 }
