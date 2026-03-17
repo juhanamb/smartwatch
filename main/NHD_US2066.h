@@ -7,8 +7,8 @@
 #define RES  32
 #define CS   33
 
-#define ASDA  20
-#define ASCL  21
+#define ASDA  9
+#define ASCL  8
 
 #define SCLK   52
 #define SDIN   51
