@@ -4,6 +4,7 @@
 const char slave2w = 0x3D;  //3C or 78
 unsigned char mode = 1; // 0 = 8-bit parallel 6800 mode; 1 = i2c mode; 2 = SPI mode;
 unsigned char tx_packet[]={0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+TwoWire I2C_1 = TwoWire(1);
 
 void command(unsigned char c)
 {
@@ -34,24 +35,26 @@ void send_packet(unsigned char x)
 {
   unsigned char ix;
   
-  Wire.beginTransmission(slave2w);
+  I2C_1.beginTransmission(slave2w);
   for(ix=0;ix<x;ix++)
   {
-    Wire.write(tx_packet[ix]);
+    I2C_1.write(tx_packet[ix]);
   }
-  Wire.endTransmission();
+  I2C_1.endTransmission();
 }
 
 void init_oled()
 {
   pinMode(ASCL, OUTPUT);      //set Arduino I2C lines as outputs
   pinMode(ASDA, OUTPUT);      //
+  pinMode(11, OUTPUT); // SA0
+  pinMode(RES, OUTPUT); 
   digitalWrite(ASCL, LOW);    //
   digitalWrite(ASDA, LOW);    //
   digitalWrite(RES, HIGH);
-  digitalWrite(11, HIGH);
+  digitalWrite(11, HIGH); //SA0
   delay(10);
-  Wire.begin(9, 8);
+  I2C_1.begin(9, 8);
   delay(10);
   mode = 1; // Set to I2C mode
   Serial.println("Reset HIGH");
@@ -72,7 +75,7 @@ void init_oled()
 	command(0x2A);  //function set (extended command set)
 	command(0x79);  //OLED command set enabled
 	command(0xDA);  //set SEG pins hardware configuration
-	command(0x10);  //set SEG pins ... NOTE: When using NHD-0216AW-XB3 or NHD_0216MW_XB3 change to (0x00)
+	command(0x0);  //set SEG pins ... NOTE: When using NHD-0216AW-XB3 or NHD_0216MW_XB3 change to (0x00)
 	command(0xDC);  //function selection C
 	command(0x00);  //function selection C
 	command(0x81);  //set contrast control
@@ -88,6 +91,5 @@ void init_oled()
 	command(0x0C);  //display ON
   Serial.println("Display on");
   delay(100);
-  //Wire.begin();
-  //delay(10);
+
 }

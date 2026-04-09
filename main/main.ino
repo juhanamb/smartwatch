@@ -33,15 +33,18 @@ void loop() {
     case INIT:
         init_i2c();
         init_oled();
+        STATE = READ_IMU;
         break;
     case READ_IMU:  
         readMPU6050();
         break;
     case READ_TEMP:
-        readTemperature();
+      //  readTemperature();
+        STATE = READ_HR;
         break;
     case READ_HR: 
-        tmp = readHR(); 
+        tmp = readHR();
+        
         break;
     case SET_IL:
         setIntenstity();

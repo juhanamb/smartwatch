@@ -4,7 +4,7 @@
 
 #define RS   30
 #define E    31
-#define RES  32
+#define RES  7
 #define CS   33
 
 #define ASDA  9

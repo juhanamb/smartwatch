@@ -34,6 +34,11 @@ uint8_t lm75b_iic_read(uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len) {
 }
 
 void init_i2c() {
+  pinMode(13, OUTPUT);      //set Arduino I2C lines as outputs
+  pinMode(12, OUTPUT);
+  pinMode(9, OUTPUT);      //set Arduino I2C lines as outputs
+  pinMode(8, OUTPUT);
+
   Wire.begin(13, 12); // join I2C bus with 13 (SDA) and 12 (SCL) pins
   I2C_1.begin(9, 8); // join I2C bus with 9 (SDA) and 8 (SCL) pins
   Serial.begin(115200); // initialize serial communication
@@ -59,11 +64,10 @@ void init_i2c() {
   Serial.println("Testing device connections...");
   Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful": "MPU6050 connection failed");
 
-  // Initialize LM75B on I2C_1
-  lm75b_handle.iic_write = lm75b_iic_write;
-  lm75b_handle.iic_read = lm75b_iic_read;
-  lm75b_handle.iic_addr = 0x90; // Default LM75B address
-  lm75b_init(&lm75b_handle);
+  // // Initialize LM75B on I2C_1
+  // lm75b_handle.iic_write = lm75b_iic_write;
+  // lm75b_handle.iic_read = lm75b_iic_read;
+  // lm75b_handle.iic_addr = 0x90; // Default LM75B address
+  // lm75b_init(&lm75b_handle);
 
-  STATE = READ_IMU;
 }

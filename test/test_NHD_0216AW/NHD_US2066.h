@@ -14,6 +14,8 @@
 #define SDIN   51
 #define SDOUT  50
 
+extern TwoWire I2C_1;
+
 // R/W signal tied LOW (always write)
 // SA0 signal tied LOW
 
