@@ -7,7 +7,7 @@
 
 // Give instance visibility to all files
 extern MPU6050 accelgyro;
-extern MAX30105 HRsensor;
+extern MAX30105 particleSensor;
 
 // i2c functions
 void init_i2c();

@@ -13,8 +13,8 @@ bool blinkState = false;
 
 void setup() {
  pinMode(2,OUTPUT); 
- Wire.begin(); // join I2C bus
- Serial.begin(750); // initialize serial communication
+ Wire.begin(13, 12); // join I2C bus
+ Serial.begin(4800); // initialize serial communication
  Serial.println("Initializing I2C devices...");
  accelgyro.initialize();
 
